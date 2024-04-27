@@ -5,6 +5,8 @@ FSJS Project 2 - Data Pagination and Filtering
 
 // set the number of students to be displayed on a page
 let itemsPerPage = 9;
+let studentList = document.querySelector('.student-list');
+let linkList = document.querySelector('.link-list');
 
 /**
  * Takes a list of students and a page number.
@@ -18,7 +20,6 @@ let itemsPerPage = 9;
 function showPage(list, page) {
   let startIndex = (page * itemsPerPage) - itemsPerPage;
   let endIndex = page * itemsPerPage;
-  let studentList = document.querySelector('.student-list');
   studentList.innerHTML = '';
   for (let i = 0; i < list.length; i++) {
     if (i >= startIndex && i < endIndex) {
@@ -48,7 +49,6 @@ function showPage(list, page) {
  */
 function addPagination(list) {
   let numberOfPages = Math.ceil(list.length / itemsPerPage);
-  let linkList = document.querySelector('.link-list');
   linkList.innerHTML = '';
 
   for (let i = 1; i <= numberOfPages; i++) {
@@ -80,3 +80,48 @@ function addPagination(list) {
  */ 
 showPage(data, 1);
 addPagination(data);
+
+
+
+/**
+ * Add the search bar to the page
+ */
+let header = document.querySelector('header');
+let searchBar = `
+  <label for="search" class="student-search">
+    <span>Search by name</span>
+    <input id="search" placeholder="Search by name...">
+    <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+  </label>`;
+header.insertAdjacentHTML('beforeend', searchBar);
+
+let searchInput = header.querySelector('#search');
+
+
+/**
+ * Search function compares the value of
+ * the search input to the name of each student
+ * in the data array.
+ * Creates a new array of the matching results
+ * and shows them on the page.
+ */
+function search() {
+  let results = [];
+  let searchString = searchInput.value.toLowerCase();
+  for (let i = 0; i < data.length; i++) {
+    let studentName = (data[i].name.first + " " + data[i].name.last).toLowerCase();
+    if (studentName.includes(searchString)) {
+      results.push(data[i]);
+    }
+  }
+  if (results.length > 0) {  
+    showPage(results, 1);
+    addPagination(results); 
+  } else {
+    studentList.innerHTML = `<li>No results were found.</li>`;
+    linkList.innerHTML = '';
+  }
+}
+
+searchInput.addEventListener('keyup', search);
+header.querySelector('button').addEventListener('click', search);
