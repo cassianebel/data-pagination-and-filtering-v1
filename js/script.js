@@ -1,22 +1,20 @@
 /*
-Treehouse Techdegree:
+Cassia Nebel's
 FSJS Project 2 - Data Pagination and Filtering
 */
 
-
-
-/*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
-
+// set the number of students to be displayed on a page
 let itemsPerPage = 9;
 
-/*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
-*/
+/**
+ * Takes a list of students and a page number.
+ * Creates and places the html to display
+ * the given number (itemsPerPage) of students.
+ * Students are displayed from the list based on the page number.
+ * 
+ * @param {array} list - An array of student objects.
+ * @param {number} page - A number representing which page of results you want.
+ */
 function showPage(list, page) {
   let startIndex = (page * itemsPerPage) - itemsPerPage;
   let endIndex = page * itemsPerPage;
@@ -41,10 +39,13 @@ function showPage(list, page) {
 }
 
 
-/*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
-*/
+/**
+ * Creates the html for pagination buttons,
+ * and inserts them onto the page,
+ * and give the current page's button an active class.
+ * 
+ * @param {array} list - An array of student objects.
+ */
 function addPagination(list) {
   let numberOfPages = Math.ceil(list.length / itemsPerPage);
   let linkList = document.querySelector('.link-list');
@@ -73,6 +74,9 @@ function addPagination(list) {
 
 
 
-// Call functions
+/**
+ * Call functions to display the initial page of students
+ * and the pagination buttons.
+ */ 
 showPage(data, 1);
 addPagination(data);
